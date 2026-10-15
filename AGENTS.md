@@ -14,6 +14,7 @@ Wails v2 + Vue 3 桌面应用：通过 adb 一键安装 APK 到手机（Windows�
 - `main.go` / `app.go`：Wails 入口与绑定方法（package main，必须在根目录）
 - `internal/adb/`：adb 封装（定位、devices、install 流式输出）；`internal/config/`：YAML 配置（configs/ 目录一机一配置）
 - `frontend/src/`：Vue 界面；`api/index.ts` 按 Wails 绑定分派，`api/mock.ts` 为浏览器无后端时的假实现，改后端方法时两者都要同步
+- **国际化**：界面文案一律走 `frontend/src/i18n/`（`t('key', vars)` + 插值 `{name}`），新增文案必须同时补 `zh-CN.ts`/`en.ts`/`ja.ts` 三份（zh-CN 是回退语言）；语言选择存 localStorage，勿在组件里写死界面文字
 
 ## 项目特有注意事项
 

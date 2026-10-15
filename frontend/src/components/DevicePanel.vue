@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeviceInfo } from '../types'
+import { t } from '../i18n'
 
 defineProps<{
   devices: DeviceInfo[]
@@ -11,22 +12,24 @@ const emit = defineEmits<{ (e: 'refresh'): void }>()
 
 function stateText(s: string): string {
   switch (s) {
-    case 'device': return '在线·已授权'
-    case 'unauthorized': return '未授权调试'
-    case 'offline': return '离线'
-    case 'recovery': return 'Recovery'
-    case 'sideload': return 'Sideload'
+    case 'device': return t('state.device')
+    case 'unauthorized': return t('state.unauthorized')
+    case 'offline': return t('state.offline')
+    case 'recovery': return t('state.recovery')
+    case 'sideload': return t('state.sideload')
     default: return s
   }
 }
 </script>
 
 <template>
-  <section class="card">
-    <div class="card-head">
-      <h3>当前 adb 设备</h3>
+  <section>
+    <div class="dev-head">
+      <h3 class="group-title">{{ t('devices.title') }}</h3>
+      <span class="spacer" />
       <button class="btn small" :disabled="refreshing || !adbReady" @click="emit('refresh')">
-        {{ refreshing ? '刷新中…' : '刷新设备' }}
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10.5 6a4.5 4.5 0 1 1-1.3-3.2M9.5 1v2.3H7.2" /></svg>
+        {{ refreshing ? t('devices.refreshing') : t('devices.refresh') }}
       </button>
     </div>
     <div class="dev-chips">
@@ -38,7 +41,14 @@ function stateText(s: string): string {
           <span v-if="d.model" class="chip-model">{{ d.model }}</span>
         </span>
       </template>
-      <span v-else class="muted">{{ adbReady ? '未检测到设备，插上手机后点「刷新设备」' : 'adb 未就绪，先在顶部选择 Android SDK 目录' }}</span>
+      <span v-else class="muted">{{ adbReady ? t('devices.none') : t('devices.adbNotReady') }}</span>
     </div>
+    <hr class="rule" />
   </section>
 </template>
+
+<style scoped>
+.dev-head { display: flex; align-items: center; gap: 10px; }
+.dev-head .group-title { margin-bottom: 0; }
+.spacer { flex: 1; }
+</style>

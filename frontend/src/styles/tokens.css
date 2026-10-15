@@ -1,0 +1,111 @@
+/* ============================================================
+   Design Tokens —— 暖色温设计令牌（重构方案 docs/2026-10-15-ui-refactor.md）
+   旧变量名（--bg/--panel/--text 等）在此映射到新令牌，保证存量样式兼容。
+   ============================================================ */
+:root {
+  /* ===== 背景层次：暖调暗色 ===== */
+  --bg-base:    #14120f;
+  --bg-surface: #1c1a17;
+  --bg-raised:  #232019;
+  --bg-input:   #1a1815;
+
+  /* ===== 边框：低对比 ===== */
+  --border-subtle:  #2a2620;
+  --border-default: #35302a;
+  --border-strong:  #47403a;
+
+  /* ===== 文字 ===== */
+  --text-primary:   #ede8e2;
+  --text-secondary: #a8a29a;
+  --text-muted:     #6e6861;
+  --text-inverse:   #14120f;
+
+  /* ===== 主色：琥珀 ===== */
+  --accent:        #f5a623;
+  --accent-hover:  #ffb84d;
+  --accent-active: #e09400;
+  --accent-soft:   rgba(245, 166, 35, 0.12);
+  --accent-ring:   rgba(245, 166, 35, 0.3);
+
+  /* ===== 语义色（低饱和） ===== */
+  --success: #7cb87c;
+  --danger:  #e07a6a;
+  --warning: #d4a857;
+  --info:    #6a9bd4;
+
+  /* ===== 日志级别色 ===== */
+  --log-info:    #8a9aa8;
+  --log-warn:    #d4a857;
+  --log-error:   #e07a6a;
+  --log-success: #7cb87c;
+  --log-adb:     #6a9bd4;
+
+  /* ===== 字体 ===== */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "JetBrains Mono", "Sarasa Mono SC", Consolas,
+               "SF Mono", monospace;
+
+  /* ===== 圆角分级 ===== */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+
+  /* ===== 间距基准 ===== */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+
+  /* ===== 旧变量映射（存量样式兼容层） ===== */
+  --bg:          var(--bg-base);
+  --panel:       var(--bg-surface);
+  --panel-2:     var(--bg-raised);
+  --border:      var(--border-default);
+  --border-soft: var(--border-subtle);
+  --text:        var(--text-primary);
+  --muted:       var(--text-muted);
+  --ok:          var(--success);
+  --warn:        var(--warning);
+  --err:         var(--danger);
+  --adb:         var(--info);
+}
+
+/* ===== 亮色主题：data-theme="light" 时覆盖 ===== */
+:root[data-theme='light'] {
+  --bg-base:    #f5f2ec;
+  --bg-surface: #fbf9f5;
+  --bg-raised:  #eee9e1;
+  --bg-input:   #ffffff;
+
+  --border-subtle:  #e5dfd5;
+  --border-default: #d8d1c5;
+  --border-strong:  #bfb6a8;
+
+  --text-primary:   #2b2722;
+  --text-secondary: #5c564e;
+  --text-muted:     #948c81;
+  --text-inverse:   #ffffff;
+
+  --accent:        #d98c0f;
+  --accent-hover:  #c67d08;
+  --accent-active: #b06f06;
+  --accent-soft:   rgba(217, 140, 15, 0.12);
+  --accent-ring:   rgba(217, 140, 15, 0.3);
+
+  --success: #4e9450;
+  --danger:  #c75b4b;
+  --warning: #b08328;
+  --info:    #4a7fb5;
+
+  --log-info:    #5d7386;
+  --log-warn:    #b08328;
+  --log-error:   #c75b4b;
+  --log-success: #4e9450;
+  --log-adb:     #4a7fb5;
+
+  --shadow: 0 8px 24px rgba(60, 50, 35, 0.15);
+}

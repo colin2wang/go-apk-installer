@@ -24,7 +24,8 @@ func main() {
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-		BackgroundColour: &options.RGBA{R: 13, G: 17, B: 23, A: 1},
+		Frameless:        true,                                     // 自定义标题栏（TitleBar.vue）
+		BackgroundColour: &options.RGBA{R: 20, G: 18, B: 15, A: 1}, // --bg-base #14120f
 		OnStartup:        app.startup,
 		OnShutdown:       app.shutdown,
 		Bind: []interface{}{

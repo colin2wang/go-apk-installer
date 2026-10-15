@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
+import TitleBar from './components/TitleBar.vue'
 import TopBar from './components/TopBar.vue'
 import PhoneList from './components/PhoneList.vue'
 import PhonePanel from './components/PhonePanel.vue'
@@ -8,6 +9,7 @@ import LogConsole from './components/LogConsole.vue'
 import Modal from './components/Modal.vue'
 import { api } from './api'
 import { emptyPhone } from './types'
+import { t } from './i18n'
 import type {
   CheckResult, DeviceInfo, LogLine, LogLevel, Phone, SDKStatus,
 } from './types'
@@ -65,10 +67,10 @@ async function refreshDevices(silent = false) {
   refreshing.value = true
   try {
     devices.value = (await api.ListDevices()) ?? []
-    if (!silent) log('info', `设备列表已刷新：共 ${devices.value.length} 台`)
+    if (!silent) log('info', t('log.devicesRefreshed', { n: devices.value.length }))
   } catch (e) {
     if (!silent) {
-      log('err', `刷新设备失败：${errMsg(e)}`)
+      log('err', t('log.refreshFailed', { msg: errMsg(e) }))
       showToast(errMsg(e))
     }
   } finally {
@@ -84,9 +86,11 @@ async function init() {
     document.documentElement.dataset['theme'] = theme.value
     await refreshPhones()
     await refreshDevices(true)
-    log('info', `初始化完成：手机配置 ${phones.value.length} 台；adb ${st.sdk.ready ? `就绪（${st.sdk.version}）` : '未就绪，请在顶部选择 Android SDK 目录'}`)
+    log('info', st.sdk.ready
+      ? t('log.initDone', { n: phones.value.length, version: st.sdk.version })
+      : t('log.initDoneNotReady', { n: phones.value.length }))
   } catch (e) {
-    log('err', `初始化失败：${errMsg(e)}`)
+    log('err', t('log.initFailed', { msg: errMsg(e) }))
   }
 }
 onMounted(init)
@@ -105,7 +109,7 @@ async function pickSDK() {
 
 async function applySDK(dir: string) {
   if (!dir) {
-    showToast('请先填写 SDK 目录路径')
+    showToast(t('toast.needSdkDir'))
     return
   }
   try {
@@ -129,7 +133,7 @@ async function saveQuiet(p: Phone) {
 async function onSave(p: Phone) {
   try {
     await saveQuiet(p)
-    showToast(`已保存 configs/${p.name}.yml`)
+    showToast(t('toast.saved', { name: p.name }))
   } catch (e) {
     showToast(errMsg(e))
   }
@@ -172,13 +176,13 @@ async function onInstall(p: Phone) {
 function confirmCreate() {
   const name = newName.value.trim()
   if (!name) {
-    showToast('请输入手机名称')
+    showToast(t('toast.needPhoneName'))
     return
   }
   api.SavePhone('', emptyPhone(name))
     .then(async () => {
       await refreshPhones(name)
-      log('ok', `已创建手机配置 configs/${name}.yml`)
+      log('ok', t('toast.created', { name }))
       modal.value = ''
       newName.value = ''
     })
@@ -193,7 +197,7 @@ function confirmDelete() {
       delete connMap[name]
       await refreshPhones()
       modal.value = ''
-      log('info', `已删除手机配置 configs/${name}.yml`)
+      log('info', t('toast.deleted', { name }))
     })
     .catch(e => showToast(errMsg(e)))
 }
@@ -211,6 +215,7 @@ async function toggleTheme() {
 
 <template>
   <div class="app">
+    <TitleBar />
     <TopBar :sdk="sdk" :theme="theme" :busy="busyInstall" @pick-sdk="pickSDK" @apply-sdk="applySDK" @toggle-theme="toggleTheme" />
 
     <div class="body">
@@ -236,14 +241,14 @@ async function toggleTheme() {
 
     <div class="toast" :class="{ show: toast }">{{ toast }}</div>
 
-    <Modal :show="modal === 'create'" title="新建手机配置" @close="modal = ''" @confirm="confirmCreate">
-      <p class="muted">将在 configs/ 目录下创建「<b>{{ newName.trim() || '?' }}</b>.yml」，一台手机一个配置文件。</p>
-      <input v-model="newName" class="inp" placeholder="手机名称，如：办公测试机" @keyup.enter="confirmCreate" />
+    <Modal :show="modal === 'create'" :title="t('modal.createTitle')" @close="modal = ''" @confirm="confirmCreate">
+      <p class="muted">{{ t('modal.createBody', { name: newName.trim() || '?' }) }}</p>
+      <input v-model="newName" class="inp" :placeholder="t('modal.namePlaceholder')" @keyup.enter="confirmCreate" />
     </Modal>
 
-    <Modal :show="modal === 'delete'" title="删除手机配置" danger @close="modal = ''" @confirm="confirmDelete">
-      <p>确定删除「<b>{{ pendingDelete }}</b>」吗？</p>
-      <p class="muted">将删除配置文件 configs/{{ pendingDelete }}.yml，此操作不可恢复。</p>
+    <Modal :show="modal === 'delete'" :title="t('modal.deleteTitle')" danger @close="modal = ''" @confirm="confirmDelete">
+      <p>{{ t('modal.deleteBody', { name: pendingDelete }) }}</p>
+      <p class="muted">{{ t('modal.deleteBodyHint', { name: pendingDelete }) }}</p>
     </Modal>
   </div>
 </template>
