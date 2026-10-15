@@ -1,0 +1,19 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "apk-installer",
+  "outputfilename": "APK Installer",
+  "frontend:install": "pnpm install",
+  "frontend:build": "pnpm run build",
+  "frontend:dev:watcher": "pnpm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "APK Installer",
+    "email": ""
+  },
+  "info": {
+    "productName": "APK 装机助手",
+    "productVersion": "1.0.0",
+    "copyright": "Copyright © 2026",
+    "comments": "调用 Android ADB 一键安装 APK 到手机（一机一配置）"
+  }
+}
