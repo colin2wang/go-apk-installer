@@ -6,6 +6,10 @@
 
 ![Platform](https://img.shields.io/badge/platform-Windows-blue) ![Go](https://img.shields.io/badge/Go-1.23+-00ADD8) ![Wails](https://img.shields.io/badge/Wails-v2-red)
 
+![APK Installer 主界面](docs/images/main-ui.png)
+
+*主界面（深色主题）：顶栏为 Android SDK 目录、adb 就绪徽标与语言切换；左侧为手机配置列表；中间编辑基本信息、APK 路径与安装参数；底部为实时日志台。*
+
 ## 功能特性
 
 - **一键安装**——选好手机配置和 APK 即可安装；执行前自动做两道前置检查（adb 就绪、设备在线且已授权）。

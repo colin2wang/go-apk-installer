@@ -6,6 +6,10 @@ A Wails v2 desktop app (Go + Vue 3) that installs APK files to Android phones vi
 
 ![Platform](https://img.shields.io/badge/platform-Windows-blue) ![Go](https://img.shields.io/badge/Go-1.23+-00ADD8) ![Wails](https://img.shields.io/badge/Wails-v2-red)
 
+![APK Installer main window](docs/images/main-ui.png)
+
+*Main window (dark theme): top bar with Android SDK path, adb readiness badge and language switcher; phone config list on the left; editor for basic info, APK path and install options in the center; live log console at the bottom.*
+
 ## Features
 
 - **One-click install** — pick a phone config and an APK, click install; the full two-step pre-check (adb ready + device connected/authorized) runs before anything is pushed to the device.
